@@ -78,7 +78,7 @@ Example column headers:
 ---
 
 ### 4. Save and Reload
-- Save the Apps Script project
+- Save and run `code.gs`
 - Reload the Google Sheet
 
 After reloading, a **custom menu** defined in `code.gs` should appear in the spreadsheet.
@@ -93,8 +93,11 @@ After reloading, a **custom menu** defined in `code.gs` should appear in the spr
 
 Example:
 
+Hello {{FirstName}},
 
-The placeholder names must exactly match the column headers.
+This email is for {{Email}}.
+
+Make sure the placeholder names exactly match the column names in your Google Sheet.
 
 ---
 
