@@ -92,3 +92,41 @@ After reloading, a **custom menu** defined in `code.gs` should appear in the spr
 3. Use placeholders that match the column headers in your Google Sheet
 
 Example:
+
+
+The placeholder names must exactly match the column headers.
+
+---
+
+## Using the Mail Merge Tool
+
+1. Open the Google Sheet
+2. Click the custom menu added by the script
+3. Open the mail merge dialog
+4. Select the Gmail draft
+5. Run the mail merge
+
+The script will:
+- Process each row in the spreadsheet
+- Replace placeholders with the corresponding row values
+- Send personalized emails automatically
+
+---
+
+## Permissions
+
+The first time the script runs, Google will request authorization to:
+- Read and modify Google Sheets
+- Access Gmail (to read drafts and send emails)
+
+These permissions are required for the tool to function.
+
+---
+
+## Notes & Limitations
+
+- Gmail daily sending limits apply (based on account type)
+- Always test with a small dataset before sending to a full list
+- Ensure email addresses are valid to avoid errors
+
+---
