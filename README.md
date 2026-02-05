@@ -1,4 +1,4 @@
-# Google Sheets Mail Merge (Google Apps Script)
+# Samuel's Automated Mail Merge System (SAMMS)
 
 This project is an **automated mail merge system** built with **Google Apps Script** that works directly with **Google Sheets**.  
 It allows you to send personalized emails using spreadsheet data and a Gmail draft as an email template.
