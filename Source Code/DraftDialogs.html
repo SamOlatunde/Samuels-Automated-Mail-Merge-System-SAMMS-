@@ -1,0 +1,159 @@
+<!-- need to add logic for lazy loading, so it only loads few drafts at a time -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <title>Start Mail Merge</title>
+
+    <style>
+      :root {
+        --bg: #f6f8fb;
+        --card: #ffffff;
+        --primary: #1a73e8;
+        --primary-hover: #1558b0;
+        --text: #202124;
+        --muted: #5f6368;
+        --border: #dadce0;
+        --radius: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 24px;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 20px;
+        max-width: 420px;
+        margin: 0 auto;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      }
+
+      h1 {
+        font-size: 18px;
+        margin: 0 0 6px;
+      }
+
+      p {
+        font-size: 13px;
+        color: var(--muted);
+        margin: 0 0 16px;
+      }
+
+      label {
+        font-size: 13px;
+        font-weight: 500;
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        font-size: 14px;
+        background: #fff;
+        outline: none;
+      }
+
+      select:focus {
+        border-color: var(--primary);
+      }
+
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+      }
+
+      button {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.05s ease;
+      }
+
+      button:hover:not(:disabled) {
+        background: var(--primary-hover);
+      }
+
+      button:active:not(:disabled) {
+        transform: translateY(1px);
+      }
+
+      button:disabled {
+        background: #c7d3f5;
+        cursor: not-allowed;
+      }
+
+      .loading {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h1>Mail Merge</h1>
+      <p>Select a Gmail draft to send.</p>
+
+      <label for="drafts">Draft</label>
+      <select id="drafts" disabled>
+        <option value="">Loading drafts…</option>
+      </select>
+
+      <div class="actions">
+        <button id="sendBtn" disabled onclick="handleSend()">
+          Send Mail
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const dropdown = document.getElementById("drafts");
+      const sendBtn = document.getElementById("sendBtn");
+
+      google.script.run.withSuccessHandler(function (drafts) {
+        dropdown.innerHTML = '<option value="">Select a draft…</option>';
+
+        drafts.forEach(function (d) {
+          const option = document.createElement("option");
+          option.text = `${d.subject} (${d.date})`;
+          option.value = d.id;
+          dropdown.add(option);
+        });
+
+        dropdown.disabled = false;
+      }).getDraftDetails();
+
+      dropdown.addEventListener("change", () => {
+        sendBtn.disabled = !dropdown.value;
+      });
+
+      function handleSend() {
+        sendBtn.disabled = true;
+        sendBtn.textContent = "Sending…";
+        google.script.run.parse_Send(dropdown.value);
+        google.script.host.close();
+      }
+    </script>
+  </body>
+</html>
